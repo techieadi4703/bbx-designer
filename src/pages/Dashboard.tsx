@@ -100,7 +100,7 @@ export default function DesignerDashboard() {
       try {
         const { data, error } = await supabase
           .from("design_reviews")
-          .select("id, rating, comment, created_at, profiles(full_name), designs!inner(name, designer_id)")
+          .select("id, rating, comment, created_at, designs!inner(name, designer_id)")
           .eq("designs.designer_id", designer.id);
 
         if (error) throw error;
@@ -117,7 +117,7 @@ export default function DesignerDashboard() {
 
   const handleLogout = async () => {
     await supabase.auth.signOut();
-    navigate("/");
+    navigate("/auth?mode=login");
   };
 
   const handleDeleteDesign = async (designId: string) => {

@@ -14,8 +14,8 @@ const SPECIALIZATIONS = [
 
 export default function DesignerAuth() {
   const [searchParams] = useSearchParams();
-  const isLoginParam = searchParams.get("mode") === "login";
-  const [isLogin, setIsLogin] = useState(isLoginParam);
+  const isSignupParam = searchParams.get("mode") === "signup";
+  const [isLogin, setIsLogin] = useState(!isSignupParam);
   const [isLoading, setIsLoading] = useState(false);
   
   const [email, setEmail] = useState("");
@@ -37,12 +37,12 @@ export default function DesignerAuth() {
 
     if (designerError) throw designerError;
 
-    return designerData ? "/" : "/setup";
+    return designerData ? "/dashboard" : "/setup";
   };
 
   useEffect(() => {
-    setIsLogin(isLoginParam);
-  }, [isLoginParam]);
+    setIsLogin(!isSignupParam);
+  }, [isSignupParam]);
 
   useEffect(() => {
     const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
