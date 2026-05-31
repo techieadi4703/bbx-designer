@@ -110,7 +110,7 @@ const LeadCaptureCard = () => {
 
 export const DesignerHero = () => {
   return (
-    <section className="relative min-h-[88vh] flex items-center pt-12 pb-12 md:pt-20 md:pb-16 overflow-hidden">
+    <section className="relative min-h-[88vh] flex items-center pt-6 pb-6 md:pt-20 md:pb-16 overflow-hidden">
       {/* Background dotted grid */}
       <div 
         className="absolute inset-0 pointer-events-none z-0" 

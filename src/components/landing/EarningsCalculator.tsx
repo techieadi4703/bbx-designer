@@ -11,7 +11,7 @@ export const EarningsCalculator = () => {
   const earnings = Math.round(projectValueLakhs[0] * 100000 * projectsPerMonth[0] * commissionRate);
 
   return (
-    <section className="py-16 md:py-24 bg-[#1c1c1a] text-white">
+    <section className="py-10 md:py-24 bg-[#1c1c1a] text-white">
       <div className="max-w-[1440px] mx-auto px-6 md:px-12">
         <Reveal width="100%">
           <div className="flex flex-col lg:flex-row gap-16 items-center">
@@ -28,12 +28,12 @@ export const EarningsCalculator = () => {
 
             {/* Right Column */}
             <RevealItem className="w-full lg:w-1/2">
-              <div className="bg-white text-[#1c1c1a] rounded-3xl p-8 md:p-12 shadow-2xl border border-[#e5e2df]">
+              <div className="bg-white text-[#1c1c1a] rounded-2xl sm:rounded-3xl p-6 sm:p-8 md:p-12 shadow-2xl border border-[#e5e2df]">
                 
                 <div className="mb-10 text-center">
                   <span className="text-[10px] font-bold uppercase tracking-widest text-[#74777d] block mb-2">Estimated Monthly Commission</span>
-                  <div className="text-5xl md:text-6xl font-headline font-bold text-[#735c00]">
-                    ₹{earnings.toLocaleString('en-IN')}<span className="text-2xl font-body text-[#74777d] font-normal">/month</span>
+                  <div className="text-3xl sm:text-5xl md:text-6xl font-headline font-bold text-[#735c00] break-words">
+                    ₹{earnings.toLocaleString('en-IN')}<span className="text-xl sm:text-2xl font-body text-[#74777d] font-normal">/month</span>
                   </div>
                 </div>
 

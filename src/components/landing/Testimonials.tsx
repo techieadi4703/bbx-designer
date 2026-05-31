@@ -25,7 +25,7 @@ export const Testimonials = () => {
   ];
 
   return (
-    <section className="py-24 bg-white border-y border-[#e5e2df]">
+    <section className="py-10 bg-white border-y border-[#e5e2df] md:py-24">
       <div className="max-w-[1440px] mx-auto px-6 md:px-12">
         <Reveal width="100%">
           <div className="text-center max-w-2xl mx-auto mb-16">

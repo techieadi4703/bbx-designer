@@ -29,7 +29,7 @@ export const FAQ = () => {
   ];
 
   return (
-    <section className="py-24 bg-[#fcf9f6]">
+    <section className="py-10 md:py-24 bg-[#fcf9f6]">
       <div className="max-w-[800px] mx-auto px-6 md:px-12">
         <Reveal width="100%">
           <div className="text-center mb-16">

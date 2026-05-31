@@ -23,7 +23,7 @@ export const WhyDesignWithUs = () => {
   ];
 
   return (
-    <section className="py-24 bg-[#fcf9f6] relative">
+    <section className="py-10 md:py-24 bg-[#fcf9f6] relative">
       <div className="max-w-[1440px] mx-auto px-6 md:px-12">
         <Reveal>
           <div className="max-w-2xl mb-16">

@@ -5,7 +5,7 @@ export const FinalCTA = () => {
   const navigate = useNavigate();
 
   return (
-    <section className="py-24 bg-[#1c1c1a] text-white text-center">
+    <section className="py-10 md:py-24 bg-[#1c1c1a] text-white text-center">
       <div className="max-w-[800px] mx-auto px-6 md:px-12">
         <h2 className="text-5xl md:text-6xl lg:text-7xl font-headline tracking-tight mb-8">
           Ready to elevate your <span className="italic text-[#735c00]">practice?</span>

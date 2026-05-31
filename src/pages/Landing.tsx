@@ -26,11 +26,6 @@ export default function Landing() {
       </Helmet>
 
       <main className="relative bg-[#fcf9f6] w-full overflow-hidden text-[#1c1c1a]">
-        <style>{`
-          @import url('https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,200..800;1,6..72,200..800&family=Manrope:wght@200..800&display=swap');
-          .font-headline { font-family: 'Newsreader', serif; }
-          .font-body { font-family: 'Manrope', sans-serif; }
-        `}</style>
         
         <DesignerHero />
         <StatsBand />

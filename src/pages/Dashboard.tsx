@@ -170,21 +170,15 @@ export default function DesignerDashboard() {
 
   return (
     <Layout>
-      <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,200..800;1,6..72,200..800&family=Manrope:wght@200..800&display=swap');
-        .font-headline { font-family: 'Newsreader', serif; }
-        .font-body { font-family: 'Manrope', sans-serif; }
-      `}</style>
-      
       <div className="bg-[#fcf9f6] text-[#1c1c1a] min-h-screen font-body w-full pb-20 relative overflow-hidden">
         <div className="absolute inset-0 pointer-events-none" style={{ backgroundImage: 'linear-gradient(#e5e2df 1px, transparent 1px), linear-gradient(90deg, #e5e2df 1px, transparent 1px)', backgroundSize: '40px 40px', opacity: 0.3 }} />
         
-        <main className="max-w-[1440px] mx-auto px-6 md:px-12 py-16 md:py-24 relative z-10">
+        <main className="max-w-[1440px] mx-auto px-6 md:px-12 py-8 md:py-24 relative z-10">
           
-          <div className="flex flex-col md:flex-row gap-16 md:gap-24 items-start">
+          <div className="flex flex-col lg:flex-row gap-6 lg:gap-24 items-start">
             
-            {/* Studio Sidebar */}
-            <div className="w-full md:w-1/4 shrink-0 sticky top-32">
+            {/* Studio Sidebar (Desktop Only) */}
+            <div className="hidden lg:block lg:w-1/4 shrink-0 sticky top-32">
               <span className="font-headline italic text-2xl text-[#735c00] mb-4 block underline underline-offset-8 decoration-1 decoration-[#c4c6cc]">Architectural Hub.</span>
               <h1 className="text-6xl font-headline tracking-tight leading-none mb-4">
                 Creative <br/> <span className="italic">Manifest.</span>
@@ -235,17 +229,48 @@ export default function DesignerDashboard() {
               </div>
             </div>
 
+            {/* Studio Header & Horizontal Tabs (Mobile/Tablet Only) */}
+            <div className="lg:hidden w-full">
+              <span className="font-headline italic text-lg text-[#735c00] mb-2 block underline underline-offset-4 decoration-1 decoration-[#c4c6cc]">Architectural Hub.</span>
+              <h1 className="text-4xl font-headline tracking-tight leading-none mb-3">
+                Creative <span className="italic">Manifest.</span>
+              </h1>
+              <div className="flex items-center gap-2 mb-6">
+                 <Badge variant="outline" className="rounded-full px-3 py-1 font-bold text-[8px] uppercase tracking-widest border-[#e5e2df]">{designer?.is_verified ? "Verified Bureau" : "Candidate Registry"}</Badge>
+              </div>
+
+              {/* Sleek horizontal sliding scrollbar tabs for Mobile/Tablet */}
+              <div className="flex gap-2 overflow-x-auto pb-4 scrollbar-none snap-x mb-4">
+                {[
+                  { id: "gallery", label: "Repository", icon: Grid },
+                  { id: "upload", label: "Publish", icon: Plus },
+                  { id: "profile", label: "Identity", icon: User },
+                  { id: "reviews", label: "Feedback", icon: Star },
+                ].map((item) => (
+                  <button 
+                    key={item.id}
+                    onClick={() => { setActiveTab(item.id); setEditingDesign(null); }}
+                    className={`flex items-center gap-2 px-5 py-3 rounded-full border transition-all whitespace-nowrap snap-center ${activeTab === item.id ? "bg-[#1c1c1a] text-white border-[#1c1c1a] shadow-sm" : "bg-white border-[#e5e2df] text-[#74777d] hover:text-[#1c1c1a]"}`}
+                  >
+                    <item.icon className={`w-3.5 h-3.5 ${activeTab === item.id ? "text-[#735c00]" : ""}`} />
+                    <span className="text-[10px] uppercase font-bold tracking-widest">{item.label}</span>
+                  </button>
+                ))}
+              </div>
+            </div>
+
             {/* Stage Core */}
-            <div className="w-full md:w-3/4">
+            <div className="w-full lg:w-3/4">
               <AnimatePresence mode="wait">
                 <motion.div
                   key={activeTab}
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0 }}
-                  className="bg-white border border-[#e5e2df] p-8 md:p-12 rounded-sm shadow-sm min-h-[600px]"
+                  className="bg-white border border-[#e5e2df] p-6 md:p-12 rounded-sm shadow-sm min-h-[600px]"
                 >
                   {activeTab === "gallery" && (
+
                     <div className="space-y-12">
                       <header className="flex items-center justify-between border-b border-[#e5e2df] pb-8">
                         <div>
@@ -257,7 +282,7 @@ export default function DesignerDashboard() {
                         </button>
                       </header>
 
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
                         {designs?.map((design) => (
                           <div key={design.id} className="group relative border border-[#e5e2df] p-4 hover:border-[#735c00] transition-all">
                               <div className="aspect-[4/3] bg-[#fcf9f6] mb-6 overflow-hidden relative">
@@ -316,7 +341,8 @@ export default function DesignerDashboard() {
                            <p className="text-[10px] uppercase font-bold tracking-[0.3em]">Zero Reviews Logs Detected</p>
                         </div>
                       ) : (
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
+
                           {reviews?.map((review) => (
                             <div key={review.id} className="p-8 border border-[#e5e2df] group hover:border-[#735c00] transition-colors relative">
                                <div className="flex items-center gap-1 mb-6">
@@ -529,7 +555,7 @@ function UploadDesignSection({ designerId, editingDesign, onComplete, onCancel }
           )}
        </header>
 
-       <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
           <div className="space-y-10">
              <div className="flex items-center gap-6 mb-8">
                 {[1, 2].map(i => (
@@ -546,7 +572,7 @@ function UploadDesignSection({ designerId, editingDesign, onComplete, onCancel }
                        <label className="text-[10px] uppercase font-bold tracking-widest opacity-60">Design Name</label>
                        <input required value={formData.name} onChange={e => setFormData({...formData, name: e.target.value})} className="w-full px-4 py-4 bg-[#f6f3f0] border border-transparent focus:border-[#735c00] outline-none rounded-sm transition-all" placeholder="E.g. Brutalist Loft 01" />
                     </div>
-                   <div className="grid grid-cols-2 gap-6">
+                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                       <div className="space-y-2">
                         <label className="text-[10px] uppercase font-bold tracking-widest opacity-60">Architectural Style</label>
                         <select value={formData.style} onChange={e => setFormData({...formData, style: e.target.value})} className="w-full px-4 py-4 bg-[#f6f3f0] border border-transparent outline-none rounded-sm text-sm">
@@ -564,7 +590,7 @@ function UploadDesignSection({ designerId, editingDesign, onComplete, onCancel }
                         <label className="text-[10px] uppercase font-bold tracking-widest opacity-60">Architectural Footprint (Room Size)</label>
                         <input required value={formData.room_size} onChange={e => setFormData({...formData, room_size: e.target.value})} className="w-full px-4 py-4 bg-[#f6f3f0] border border-transparent focus:border-[#735c00] outline-none rounded-sm transition-all" placeholder="E.g. 15x20 ft" />
                      </div>
-                     <div className="grid grid-cols-2 gap-6">
+                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                         <div className="space-y-2">
                           <label className="text-[10px] uppercase font-bold tracking-widest opacity-60">Project Timeline</label>
                           <input required value={formData.timeline} onChange={e => setFormData({...formData, timeline: e.target.value})} className="w-full px-4 py-4 bg-[#f6f3f0] border border-transparent focus:border-[#735c00] outline-none rounded-sm transition-all" placeholder="E.g. 6 Weeks" />
@@ -605,14 +631,14 @@ function UploadDesignSection({ designerId, editingDesign, onComplete, onCancel }
                        </div>
                     </div>
                    
-                     <div className="grid grid-cols-2 gap-4">
+                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <div className="space-y-2">
-                          <label className="text-[10px] uppercase font-bold tracking-widest opacity-60">Room Size (sq.ft)</label>
-                          <input type="number" value={formData.room_size} onChange={e => setFormData({...formData, room_size: e.target.value})} className="w-full px-4 py-3 bg-[#f6f3f0] border border-transparent outline-none rounded-sm text-sm" />
+                           <label className="text-[10px] uppercase font-bold tracking-widest opacity-60">Room Size (sq.ft)</label>
+                           <input type="number" value={formData.room_size} onChange={e => setFormData({...formData, room_size: e.target.value})} className="w-full px-4 py-3 bg-[#f6f3f0] border border-transparent outline-none rounded-sm text-sm" />
                         </div>
                         <div className="space-y-2">
-                          <label className="text-[10px] uppercase font-bold tracking-widest opacity-60">Execution (₹)</label>
-                          <input type="number" value={formData.execution_cost} onChange={e => setFormData({...formData, execution_cost: e.target.value})} className="w-full px-4 py-3 bg-[#f6f3f0] border border-transparent outline-none rounded-sm text-sm" />
+                           <label className="text-[10px] uppercase font-bold tracking-widest opacity-60">Execution (₹)</label>
+                           <input type="number" value={formData.execution_cost} onChange={e => setFormData({...formData, execution_cost: e.target.value})} className="w-full px-4 py-3 bg-[#f6f3f0] border border-transparent outline-none rounded-sm text-sm" />
                         </div>
 
                      </div>
@@ -626,23 +652,24 @@ function UploadDesignSection({ designerId, editingDesign, onComplete, onCancel }
                            <label className="text-[10px] uppercase font-bold tracking-widest opacity-60">Technical Bill of Materials</label>
                            <button type="button" onClick={addMaterialRow} className="text-[8px] font-black uppercase tracking-widest flex items-center gap-2 hover:text-[#735c00] transition-colors"><Plus className="w-3 h-3" /> Append Specification</button>
                         </div>
+
                         <div className="space-y-4 max-h-[300px] overflow-y-auto pr-2 custom-scrollbar">
                            {materials.map((mat, index) => (
-                              <div key={index} className="grid grid-cols-12 gap-3 bg-[#f6f3f0] p-4 group relative">
-                                 <div className="col-span-5">
+                              <div key={index} className="grid grid-cols-1 md:grid-cols-12 gap-3 bg-[#f6f3f0] p-4 group relative">
+                                 <div className="col-span-12 md:col-span-5">
                                     <label className="text-[9px] font-bold uppercase block mb-1">Component Name</label>
                                     <input value={mat.material_name} onChange={e => updateMaterial(index, 'material_name', e.target.value)} className="w-full bg-transparent border-b border-[#e5e2df] outline-none text-xs font-bold py-1" />
                                  </div>
-                                 <div className="col-span-2">
+                                 <div className="col-span-6 md:col-span-2">
                                     <label className="text-[9px] font-bold uppercase block mb-1">Quantity</label>
                                     <input type="number" value={mat.quantity} onChange={e => updateMaterial(index, 'quantity', e.target.value)} className="w-full bg-transparent border-b border-[#e5e2df] outline-none text-xs font-bold py-1" />
                                  </div>
-                                 <div className="col-span-4">
+                                 <div className="col-span-6 md:col-span-4">
                                     <label className="text-[9px] font-bold uppercase block mb-1">Notes / Grades</label>
                                     <input value={mat.notes} onChange={e => updateMaterial(index, 'notes', e.target.value)} className="w-full bg-transparent border-b border-[#e5e2df] outline-none text-xs font-bold py-1" />
                                  </div>
-                                 <div className="col-span-1 flex items-end">
-                                    <button type="button" onClick={() => removeMaterial(index)} className="text-red-500 opacity-0 group-hover:opacity-100 transition-opacity"><Trash className="w-3 h-3" /></button>
+                                 <div className="col-span-12 md:col-span-1 flex items-end justify-end md:justify-start">
+                                    <button type="button" onClick={() => removeMaterial(index)} className="text-red-500 opacity-100 md:opacity-0 group-hover:opacity-100 transition-opacity flex items-center gap-1 text-[9px] md:text-sm font-bold uppercase"><Trash className="w-3.5 h-3.5" /><span className="md:hidden">Remove</span></button>
                                  </div>
                               </div>
                            ))}

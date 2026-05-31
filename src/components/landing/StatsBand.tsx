@@ -35,7 +35,7 @@ export const StatsBand = () => {
   ];
 
   return (
-    <section className="bg-white border-y border-[#e5e2df] py-10 md:py-16">
+    <section className="bg-white border-y border-[#e5e2df] py-6 md:py-16">
       <div className="max-w-[1440px] mx-auto px-6 md:px-12">
         <Reveal width="100%">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-12">

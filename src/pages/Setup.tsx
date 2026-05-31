@@ -156,14 +156,14 @@ export default function DesignerSetup() {
           </Reveal>
 
           <Reveal width="100%" direction="up" delay={0.2}>
-            <Card className="border-border/50 shadow-2xl bg-background/80 backdrop-blur-xl rounded-[3.5rem] overflow-hidden">
-              <div className="bg-primary/5 px-10 py-6 border-b border-border/50 flex items-center gap-3">
+            <Card className="border-border/50 shadow-2xl bg-background/80 backdrop-blur-xl rounded-[1.5rem] sm:rounded-[2.5rem] md:rounded-[3.5rem] overflow-hidden">
+              <div className="bg-primary/5 px-6 py-4 sm:px-10 sm:py-6 border-b border-border/50 flex items-center gap-3">
                 <ShieldCheck className="w-5 h-5 text-primary" />
-                <h2 className="text-xl font-black uppercase tracking-widest text-primary/80">Creative Onboarding</h2>
+                <h2 className="text-lg sm:text-xl font-black uppercase tracking-widest text-primary/80">Creative Onboarding</h2>
               </div>
-              <CardContent className="p-10 md:p-14">
+              <CardContent className="p-6 sm:p-10 md:p-14">
                 <form onSubmit={handleSubmit} className="space-y-12">
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-10">
                     <RevealItem>
                       <div className="space-y-3">
                         <Label htmlFor="fullName" className="text-xs font-black uppercase tracking-widest text-muted-foreground ml-1">Full Creative Name</Label>

@@ -119,12 +119,6 @@ export default function DesignerAuth() {
 
   return (
     <Layout>
-      <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,200..800;1,6..72,200..800&family=Manrope:wght@200..800&display=swap');
-        .font-headline { font-family: 'Newsreader', serif; }
-        .font-body { font-family: 'Manrope', sans-serif; }
-      `}</style>
-      
       <div className="bg-[#fcf9f6] text-[#1c1c1a] min-h-screen font-body w-full pb-20 relative overflow-hidden">
         <div className="absolute inset-0 pointer-events-none" style={{ backgroundImage: 'linear-gradient(#e5e2df 1px, transparent 1px), linear-gradient(90deg, #e5e2df 1px, transparent 1px)', backgroundSize: '40px 40px', opacity: 0.3 }} />
         
@@ -133,7 +127,7 @@ export default function DesignerAuth() {
             
             <div className="w-full md:w-1/3 shrink-0 sticky top-32">
                <span className="font-body uppercase tracking-[0.2em] text-[10px] text-[#735c00] mb-4 block font-bold">Creative Network</span>
-               <h1 className="text-6xl md:text-7xl font-headline tracking-tight leading-none mb-6">
+               <h1 className="text-4xl sm:text-6xl md:text-7xl font-headline tracking-tight leading-none mb-6">
                 Designer <br/><span className="italic">{isLogin ? "Access." : "Studio."}</span>
               </h1>
                <div className="w-12 h-[1px] bg-[#c4c6cc] mb-6"></div>
@@ -179,7 +173,7 @@ export default function DesignerAuth() {
 
                       <div className="space-y-4">
                         <label className="text-[10px] uppercase font-bold tracking-widest text-[#1c1c1a] opacity-60">Specialization Grid (Select All That Apply)</label>
-                        <div className="grid grid-cols-2 gap-3">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                           {SPECIALIZATIONS.map(spec => {
                             const isSelected = selectedSpecs.includes(spec);
                             return (
