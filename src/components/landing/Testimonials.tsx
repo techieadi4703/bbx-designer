@@ -25,10 +25,10 @@ export const Testimonials = () => {
   ];
 
   return (
-    <section className="py-10 bg-white border-y border-[#e5e2df] md:py-24">
+    <section className="py-8 md:py-24 bg-white border-y border-[#e5e2df]">
       <div className="max-w-[1440px] mx-auto px-6 md:px-12">
         <Reveal width="100%">
-          <div className="text-center max-w-2xl mx-auto mb-16">
+          <div className="text-center max-w-2xl mx-auto mb-8 md:mb-16">
             <h2 className="text-4xl md:text-5xl font-headline tracking-tight text-[#1c1c1a] mb-6">
               Trusted by top <span className="italic text-[#735c00]">designers</span>
             </h2>
@@ -37,15 +37,15 @@ export const Testimonials = () => {
             </p>
           </div>
           
-          <div className="grid md:grid-cols-3 gap-8">
+          <div className="grid md:grid-cols-3 gap-4 md:gap-8">
             {testimonials.map((t, i) => (
-              <div key={i} className="bg-[#fcf9f6] p-8 rounded-2xl border border-[#e5e2df] flex flex-col h-full card-hover-lift">
-                <div className="flex gap-1 mb-6 text-[#735c00]">
+              <div key={i} className="bg-[#fcf9f6] p-5 md:p-8 rounded-2xl border border-[#e5e2df] flex flex-col h-full card-hover-lift">
+                <div className="flex gap-1 mb-4 md:mb-6 text-[#735c00]">
                   {[...Array(t.rating)].map((_, j) => (
                     <Star key={j} className="w-5 h-5 fill-current" />
                   ))}
                 </div>
-                <p className="text-[#1c1c1a] leading-relaxed mb-8 flex-1 font-medium text-lg">
+                <p className="text-[#1c1c1a] leading-relaxed mb-4 md:mb-8 flex-1 font-medium text-base md:text-lg">
                   "{t.content}"
                 </p>
                 <div>

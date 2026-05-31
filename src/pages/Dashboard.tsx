@@ -173,7 +173,7 @@ export default function DesignerDashboard() {
       <div className="bg-[#fcf9f6] text-[#1c1c1a] min-h-screen font-body w-full pb-20 relative overflow-hidden">
         <div className="absolute inset-0 pointer-events-none" style={{ backgroundImage: 'linear-gradient(#e5e2df 1px, transparent 1px), linear-gradient(90deg, #e5e2df 1px, transparent 1px)', backgroundSize: '40px 40px', opacity: 0.3 }} />
         
-        <main className="max-w-[1440px] mx-auto px-6 md:px-12 py-8 md:py-24 relative z-10">
+        <main className="max-w-[1440px] mx-auto px-4 md:px-12 py-4 md:py-24 relative z-10">
           
           <div className="flex flex-col lg:flex-row gap-6 lg:gap-24 items-start">
             
@@ -229,33 +229,14 @@ export default function DesignerDashboard() {
               </div>
             </div>
 
-            {/* Studio Header & Horizontal Tabs (Mobile/Tablet Only) */}
-            <div className="lg:hidden w-full">
+            {/* Studio Header (Mobile/Tablet Only) */}
+            <div className="lg:hidden w-full mb-6">
               <span className="font-headline italic text-lg text-[#735c00] mb-2 block underline underline-offset-4 decoration-1 decoration-[#c4c6cc]">Architectural Hub.</span>
               <h1 className="text-4xl font-headline tracking-tight leading-none mb-3">
                 Creative <span className="italic">Manifest.</span>
               </h1>
-              <div className="flex items-center gap-2 mb-6">
+              <div className="flex items-center gap-2">
                  <Badge variant="outline" className="rounded-full px-3 py-1 font-bold text-[8px] uppercase tracking-widest border-[#e5e2df]">{designer?.is_verified ? "Verified Bureau" : "Candidate Registry"}</Badge>
-              </div>
-
-              {/* Sleek horizontal sliding scrollbar tabs for Mobile/Tablet */}
-              <div className="flex gap-2 overflow-x-auto pb-4 scrollbar-none snap-x mb-4">
-                {[
-                  { id: "gallery", label: "Repository", icon: Grid },
-                  { id: "upload", label: "Publish", icon: Plus },
-                  { id: "profile", label: "Identity", icon: User },
-                  { id: "reviews", label: "Feedback", icon: Star },
-                ].map((item) => (
-                  <button 
-                    key={item.id}
-                    onClick={() => { setActiveTab(item.id); setEditingDesign(null); }}
-                    className={`flex items-center gap-2 px-5 py-3 rounded-full border transition-all whitespace-nowrap snap-center ${activeTab === item.id ? "bg-[#1c1c1a] text-white border-[#1c1c1a] shadow-sm" : "bg-white border-[#e5e2df] text-[#74777d] hover:text-[#1c1c1a]"}`}
-                  >
-                    <item.icon className={`w-3.5 h-3.5 ${activeTab === item.id ? "text-[#735c00]" : ""}`} />
-                    <span className="text-[10px] uppercase font-bold tracking-widest">{item.label}</span>
-                  </button>
-                ))}
               </div>
             </div>
 
@@ -267,12 +248,12 @@ export default function DesignerDashboard() {
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0 }}
-                  className="bg-white border border-[#e5e2df] p-6 md:p-12 rounded-sm shadow-sm min-h-[600px]"
+                  className="bg-white border border-[#e5e2df] p-4 md:p-12 rounded-sm shadow-sm min-h-[600px]"
                 >
                   {activeTab === "gallery" && (
 
-                    <div className="space-y-12">
-                      <header className="flex items-center justify-between border-b border-[#e5e2df] pb-8">
+                    <div className="space-y-6 md:space-y-12">
+                      <header className="flex items-center justify-between border-b border-[#e5e2df] pb-4 md:pb-8">
                         <div>
                            <h2 className="text-4xl font-headline tracking-tight mb-2">Design <span className="italic">Repository.</span></h2>
                            <p className="text-xs font-body text-[#74777d]">Authenticated blueprints and active architectural listings.</p>
@@ -282,10 +263,10 @@ export default function DesignerDashboard() {
                         </button>
                       </header>
 
-                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-8">
                         {designs?.map((design) => (
-                          <div key={design.id} className="group relative border border-[#e5e2df] p-4 hover:border-[#735c00] transition-all">
-                              <div className="aspect-[4/3] bg-[#fcf9f6] mb-6 overflow-hidden relative">
+                          <div key={design.id} className="group relative border border-[#e5e2df] p-3 sm:p-4 hover:border-[#735c00] transition-all">
+                              <div className="aspect-[4/3] bg-[#fcf9f6] mb-3 sm:mb-6 overflow-hidden relative">
                                  <img src={design.images && design.images.length > 0 ? design.images[0] : ""} alt={design.name} loading="lazy" decoding="async" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
                                  <div className="absolute top-4 right-4 flex gap-2 translate-y-2 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all">
                                     <button onClick={() => { setEditingDesign(design); setActiveTab("upload"); }} className="w-10 h-10 bg-white border border-[#e5e2df] flex items-center justify-center hover:bg-[#1c1c1a] hover:text-white transition-colors" title="Edit Design"><Edit className="w-4 h-4" /></button>
@@ -294,10 +275,10 @@ export default function DesignerDashboard() {
                               </div>
                               <div className="flex justify-between items-start mb-4">
                                  <div>
-                                    <h3 className="text-xl font-headline font-bold mb-1">{design.name}</h3>
+                                    <h3 className="text-base sm:text-xl font-headline font-bold mb-1">{design.name}</h3>
                                     <span className="text-[10px] uppercase font-bold text-[#735c00] tracking-widest">{design.category}</span>
                                  </div>
-                                 <span className="text-sm font-bold">₹{design.total_cost?.toLocaleString() || "0"}</span>
+                                 <span className="text-xs sm:text-sm font-bold">₹{design.total_cost?.toLocaleString() || "0"}</span>
                               </div>
                               <div className="pt-4 border-t border-[#f6f3f0] flex items-center justify-between">
                                  <Badge variant="outline" className={`rounded-none text-[8px] font-bold uppercase tracking-[0.2em] border-none px-0 ${design.is_published ? "text-green-600" : "text-[#74777d]"}`}>
@@ -316,7 +297,7 @@ export default function DesignerDashboard() {
                       </div>
                     </div>
                   )}
-
+ 
                   {activeTab === "upload" && (
                     <UploadDesignSection 
                       designerId={designer?.id ?? ""} 
@@ -325,9 +306,9 @@ export default function DesignerDashboard() {
                       onCancel={() => { setActiveTab("gallery"); setEditingDesign(null); }}
                     />
                   )}
-
+ 
                   {activeTab === "profile" && designer && <DesignerProfileSection designer={designer} />}
-
+ 
                   {activeTab === "reviews" && (
                     <div className="space-y-12">
                       <header className="border-b border-[#e5e2df] pb-8">
@@ -341,16 +322,16 @@ export default function DesignerDashboard() {
                            <p className="text-[10px] uppercase font-bold tracking-[0.3em]">Zero Reviews Logs Detected</p>
                         </div>
                       ) : (
-                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
-
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-8">
+ 
                           {reviews?.map((review) => (
-                            <div key={review.id} className="p-8 border border-[#e5e2df] group hover:border-[#735c00] transition-colors relative">
+                            <div key={review.id} className="p-4 sm:p-8 border border-[#e5e2df] group hover:border-[#735c00] transition-colors relative">
                                <div className="flex items-center gap-1 mb-6">
                                   {[...Array(5)].map((_, i) => (
                                     <Star key={i} className={`w-3 h-3 ${i < review.rating ? "text-[#735c00] fill-current" : "text-[#e5e2df]"}`} />
                                   ))}
                                </div>
-                               <p className="font-body text-sm text-[#44474c] leading-relaxed italic mb-8">"{review.comment}"</p>
+                               <p className="font-body text-xs sm:text-sm text-[#44474c] leading-relaxed italic mb-4 sm:mb-8">"{review.comment}"</p>
                                <div className="flex justify-between items-center border-t border-[#f6f3f0] pt-4">
                                   <div>
                                      <span className="text-[9px] font-black uppercase text-[#1c1c1a] block">{review.profiles?.full_name || "Verified Client"}</span>
@@ -370,6 +351,44 @@ export default function DesignerDashboard() {
 
           </div>
         </main>
+
+        {/* Sticky Bottom Tab Bar for Mobile/Tablet */}
+        <div className="lg:hidden fixed bottom-0 left-0 right-0 z-50 bg-white border-t border-[#e5e2df] py-2 px-6 shadow-[0_-4px_20px_rgba(0,0,0,0.06)]">
+          <div className="flex justify-between items-center max-w-md mx-auto">
+            {[
+              { id: "gallery", label: "Repository", icon: Grid },
+              { id: "upload", label: "Publish", icon: Plus },
+              { id: "profile", label: "Identity", icon: User },
+              { id: "reviews", label: "Feedback", icon: Star },
+            ].map((item) => {
+              const Icon = item.icon;
+              const isActive = activeTab === item.id;
+              return (
+                <button
+                  key={item.id}
+                  onClick={() => {
+                    setActiveTab(item.id);
+                    setEditingDesign(null);
+                    window.scrollTo({ top: 0, behavior: "smooth" });
+                  }}
+                  className="flex flex-col items-center gap-1 py-1 px-3 transition-colors relative"
+                >
+                  <Icon className={`w-5 h-5 ${isActive ? "text-[#735c00]" : "text-[#74777d]"}`} />
+                  <span className={`text-[9px] uppercase font-bold tracking-wider ${isActive ? "text-[#1c1c1a]" : "text-[#74777d]"}`}>
+                    {item.label}
+                  </span>
+                  {isActive && (
+                    <motion.div
+                      layoutId="active-bottom-tab"
+                      className="absolute top-0 w-8 h-[2px] bg-[#735c00] rounded-full"
+                      transition={{ type: "spring", stiffness: 380, damping: 30 }}
+                    />
+                  )}
+                </button>
+              );
+            })}
+          </div>
+        </div>
       </div>
     </Layout>
   );
@@ -542,8 +561,8 @@ function UploadDesignSection({ designerId, editingDesign, onComplete, onCancel }
   };
 
   return (
-    <div className="space-y-12">
-       <header className="flex items-center justify-between border-b border-[#e5e2df] pb-8">
+    <div className="space-y-6 md:space-y-12">
+       <header className="flex items-center justify-between border-b border-[#e5e2df] pb-4 md:pb-8">
           <div>
              <h2 className="text-4xl font-headline tracking-tight mb-2">{editingDesign ? "Refine" : "Publish"} <span className="italic">Vision.</span></h2>
              <p className="text-xs font-body text-[#74777d]">Deposit architectural blueprints into the global registry.</p>
@@ -739,8 +758,8 @@ function DesignerProfileSection({ designer }: { designer: any }) {
   };
 
   return (
-    <div className="space-y-12">
-       <header className="border-b border-[#e5e2df] pb-8">
+    <div className="space-y-6 md:space-y-12">
+       <header className="border-b border-[#e5e2df] pb-4 md:pb-8">
           <h2 className="text-4xl font-headline tracking-tight mb-2">Studio <span className="italic">Identity.</span></h2>
           <p className="text-xs font-body text-[#74777d]">Authenticated creative parameters and professional registry.</p>
        </header>

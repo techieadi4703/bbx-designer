@@ -1,4 +1,4 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import { useState } from "react";
 import { Menu, X, LogOut, LayoutDashboard, User, Palette } from "lucide-react";
@@ -7,6 +7,7 @@ import { supabase } from "@/integrations/supabase/client";
 export const Header = () => {
   const { isAuthenticated, userRole } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const handleLogout = async () => {
@@ -19,7 +20,7 @@ export const Header = () => {
     <header className="border-b border-[#e5e2df] bg-white sticky top-0 z-50">
       <div className="container mx-auto px-4 md:px-6 h-16 flex items-center justify-between">
         {/* Brand */}
-        <Link to="/" className="text-xl font-headline font-bold text-[#1c1c1a] tracking-tight flex items-center gap-2">
+        <Link to="/" className="text-lg md:text-xl font-headline font-bold text-[#1c1c1a] tracking-tight flex items-center gap-1.5 md:gap-2">
           <span>BuildBazaarX</span>
           <span className="italic font-normal text-[#735c00]">Designer</span>
         </Link>
@@ -47,68 +48,54 @@ export const Header = () => {
             </>
           ) : (
             <>
-              <Link to="/auth?mode=login" className="text-xs uppercase font-bold tracking-widest text-[#74777d] hover:text-[#1c1c1a] transition-colors">
-                Sign In
-              </Link>
+              {location.pathname !== "/auth" && (
+                <Link to="/auth?mode=login" className="text-xs uppercase font-bold tracking-widest text-[#74777d] hover:text-[#1c1c1a] transition-colors">
+                  Sign In
+                </Link>
+              )}
             </>
           )}
         </nav>
 
-        {/* Mobile Menu Toggle */}
-        <button
-          onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-          className="p-2 md:hidden text-[#1c1c1a] hover:bg-[#f6f3f0] rounded-lg transition-colors"
-          aria-label="Toggle navigation menu"
-        >
-          {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-        </button>
-      </div>
-
-      {/* Mobile Drawer Overlay */}
-      {mobileMenuOpen && (
-        <div className="fixed inset-0 top-16 z-40 bg-white md:hidden border-t border-[#e5e2df] animate-fade-in">
-          <div className="flex flex-col p-6 space-y-6">
-            {isAuthenticated ? (
-              <>
-                {userRole === "designer" && (
-                  <Link
-                    to="/dashboard"
-                    onClick={() => setMobileMenuOpen(false)}
-                    className="text-sm uppercase font-bold tracking-widest text-[#1c1c1a] pb-2 border-b border-[#f6f3f0] flex items-center gap-2"
-                  >
-                    <LayoutDashboard className="w-4 h-4 text-[#735c00]" /> Dashboard
-                  </Link>
-                )}
-                {userRole === "customer" && (
-                  <Link
-                    to="/setup"
-                    onClick={() => setMobileMenuOpen(false)}
-                    className="text-sm uppercase font-bold tracking-widest text-[#1c1c1a] pb-2 border-b border-[#f6f3f0] flex items-center gap-2"
-                  >
-                    <Palette className="w-4 h-4 text-[#735c00]" /> Setup Practice
-                  </Link>
-                )}
-                <button
-                  onClick={handleLogout}
-                  className="w-full text-left text-sm uppercase font-bold tracking-widest text-red-600 flex items-center gap-2 pt-2"
-                >
-                  <LogOut className="w-4 h-4" /> Logout
-                </button>
-              </>
-            ) : (
-              <>
+        {/* Mobile Navigation / Actions */}
+        <div className="md:hidden flex items-center gap-1.5">
+          {isAuthenticated ? (
+            <>
+              {userRole === "designer" && (
                 <Link
-                  to="/auth?mode=login"
-                  onClick={() => setMobileMenuOpen(false)}
-                  className="text-sm uppercase font-bold tracking-widest text-[#1c1c1a] pb-2 border-b border-[#f6f3f0]"
+                  to="/dashboard"
+                  className="text-[10px] uppercase font-bold tracking-wider px-2.5 py-1 border border-[#1c1c1a] text-[#1c1c1a] hover:bg-[#1c1c1a] hover:text-white rounded-full transition-all duration-200 whitespace-nowrap"
                 >
-                  Sign In
+                  Dashboard
                 </Link>
-              </>
-            )}
-          </div>
+              )}
+              {userRole === "customer" && (
+                <Link
+                  to="/setup"
+                  className="text-[10px] uppercase font-bold tracking-wider px-2.5 py-1 border border-[#1c1c1a] text-[#1c1c1a] hover:bg-[#1c1c1a] hover:text-white rounded-full transition-all duration-200 whitespace-nowrap"
+                >
+                  Setup
+                </Link>
+              )}
+              <button
+                onClick={handleLogout}
+                className="text-[10px] uppercase font-bold tracking-wider px-2.5 py-1 border border-red-600 text-red-600 hover:bg-red-600 hover:text-white rounded-full transition-all duration-200 whitespace-nowrap"
+              >
+                Logout
+              </button>
+            </>
+          ) : (
+            location.pathname !== "/auth" && (
+              <Link
+                to="/auth?mode=login"
+                className="text-[10px] uppercase font-bold tracking-wider px-2.5 py-1 border border-[#1c1c1a] text-[#1c1c1a] hover:bg-[#1c1c1a] hover:text-white rounded-full transition-all duration-200 whitespace-nowrap"
+              >
+                Sign In
+              </Link>
+            )
+          )}
         </div>
-      )}
+      </div>
     </header>
   );
 };

@@ -29,16 +29,16 @@ export const FAQ = () => {
   ];
 
   return (
-    <section className="py-10 md:py-24 bg-[#fcf9f6]">
+    <section className="py-8 md:py-24 bg-[#fcf9f6]">
       <div className="max-w-[800px] mx-auto px-6 md:px-12">
         <Reveal width="100%">
-          <div className="text-center mb-16">
+          <div className="text-center mb-8 md:mb-16">
             <h2 className="text-4xl md:text-5xl font-headline tracking-tight text-[#1c1c1a]">
               Frequently asked questions
             </h2>
           </div>
 
-          <div className="space-y-4">
+          <div className="space-y-2.5 md:space-y-4">
             {faqs.map((faq, i) => (
               <div 
                 key={i} 

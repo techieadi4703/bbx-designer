@@ -23,10 +23,10 @@ export const WhyDesignWithUs = () => {
   ];
 
   return (
-    <section className="py-10 md:py-24 bg-[#fcf9f6] relative">
+    <section className="py-8 md:py-24 bg-[#fcf9f6] relative">
       <div className="max-w-[1440px] mx-auto px-6 md:px-12">
         <Reveal>
-          <div className="max-w-2xl mb-16">
+          <div className="max-w-2xl mb-8 md:mb-16">
             <h2 className="text-4xl md:text-5xl font-headline tracking-tight text-[#1c1c1a] mb-6">
               Spend more time designing. <br />We'll handle the rest.
             </h2>
@@ -36,7 +36,7 @@ export const WhyDesignWithUs = () => {
           </div>
         </Reveal>
 
-        <div className="grid md:grid-cols-2 gap-x-12 gap-y-12">
+        <div className="grid md:grid-cols-2 gap-x-12 gap-y-6 md:gap-y-12">
           {benefits.map((b, i) => (
             <Reveal key={i} delay={i * 0.1}>
               <div className="flex gap-4">
@@ -44,8 +44,8 @@ export const WhyDesignWithUs = () => {
                   <CheckCircle2 className="w-6 h-6 text-[#735c00]" />
                 </div>
                 <div>
-                  <h3 className="text-xl font-bold text-[#1c1c1a] mb-2">{b.title}</h3>
-                  <p className="text-[#74777d] leading-relaxed">{b.desc}</p>
+                  <h3 className="text-lg md:text-xl font-bold text-[#1c1c1a] mb-2">{b.title}</h3>
+                  <p className="text-sm md:text-base text-[#74777d] leading-relaxed">{b.desc}</p>
                 </div>
               </div>
             </Reveal>

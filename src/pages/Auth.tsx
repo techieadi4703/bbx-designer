@@ -122,15 +122,15 @@ export default function DesignerAuth() {
       <div className="bg-[#fcf9f6] text-[#1c1c1a] min-h-screen font-body w-full pb-20 relative overflow-hidden">
         <div className="absolute inset-0 pointer-events-none" style={{ backgroundImage: 'linear-gradient(#e5e2df 1px, transparent 1px), linear-gradient(90deg, #e5e2df 1px, transparent 1px)', backgroundSize: '40px 40px', opacity: 0.3 }} />
         
-        <main className="max-w-[1440px] mx-auto px-6 md:px-12 py-16 md:py-24 relative z-10">
-          <div className="flex flex-col md:flex-row gap-16 md:gap-24 items-start">
+        <main className="max-w-[1440px] mx-auto px-4 md:px-12 py-6 md:py-24 relative z-10">
+          <div className="flex flex-col md:flex-row gap-8 md:gap-24 items-start">
             
-            <div className="w-full md:w-1/3 shrink-0 sticky top-32">
-               <span className="font-body uppercase tracking-[0.2em] text-[10px] text-[#735c00] mb-4 block font-bold">Creative Network</span>
-               <h1 className="text-4xl sm:text-6xl md:text-7xl font-headline tracking-tight leading-none mb-6">
+            <div className="w-full md:w-1/3 shrink-0 md:sticky md:top-32">
+               <span className="font-body uppercase tracking-[0.2em] text-[10px] text-[#735c00] mb-2 md:mb-4 block font-bold">Creative Network</span>
+               <h1 className="text-4xl sm:text-6xl md:text-7xl font-headline tracking-tight leading-none mb-4 md:mb-6">
                 Designer <br/><span className="italic">{isLogin ? "Access." : "Studio."}</span>
               </h1>
-               <div className="w-12 h-[1px] bg-[#c4c6cc] mb-6"></div>
+               <div className="w-12 h-[1px] bg-[#c4c6cc] mb-4 md:mb-6"></div>
               <p className="text-lg font-body text-[#44474c] leading-relaxed max-w-sm">
                 {isLogin 
                   ? "Authenticate to manage your commissions and publish your latest architectural visions." 
@@ -142,9 +142,9 @@ export default function DesignerAuth() {
               <motion.div 
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                className="bg-white border border-[#e5e2df] p-8 md:p-12 rounded-sm shadow-sm"
+                className="bg-white border border-[#e5e2df] p-5 md:p-12 rounded-sm shadow-sm"
               >
-                <form onSubmit={handleAuth} className="space-y-8">
+                <form onSubmit={handleAuth} className="space-y-5 md:space-y-8">
                    {!isLogin && (
                     <div className="space-y-8">
                       <div className="space-y-2">
@@ -239,7 +239,7 @@ export default function DesignerAuth() {
                   </button>
                 </form>
 
-                <div className="mt-12 pt-8 border-t border-[#e5e2df] flex items-center justify-between">
+                <div className="mt-6 md:mt-12 pt-6 md:pt-8 border-t border-[#e5e2df] flex items-center justify-between">
                   <span className="text-[10px] uppercase font-bold tracking-widest text-[#74777d]">
                     {isLogin ? "No active license?" : "Existing resident?"}
                   </span>
