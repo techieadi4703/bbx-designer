@@ -2,6 +2,7 @@ import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import { useState } from "react";
 import { Menu, X, LogOut, LayoutDashboard, User, Palette } from "lucide-react";
+import { logoIcon } from "@/lib/cdnImages";
 import { supabase } from "@/integrations/supabase/client";
 
 export const Header = () => {
@@ -21,6 +22,7 @@ export const Header = () => {
       <div className="container mx-auto px-4 md:px-6 h-16 flex items-center justify-between">
         {/* Brand */}
         <Link to="/" className="text-lg md:text-xl font-headline font-bold text-[#1c1c1a] tracking-tight flex items-center gap-1.5 md:gap-2">
+          <img src={logoIcon} alt="BuildBazaarX Logo" className="h-6 md:h-7 w-auto object-contain" />
           <span>BuildBazaarX</span>
           <span className="italic font-normal text-[#735c00]">Designer</span>
         </Link>
