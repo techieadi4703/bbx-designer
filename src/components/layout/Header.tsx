@@ -6,7 +6,7 @@ import { logoIcon } from "@/lib/cdnImages";
 import { supabase } from "@/integrations/supabase/client";
 
 export const Header = () => {
-  const { isAuthenticated, userRole } = useAuth();
+  const { isAuthenticated, hasRole } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -31,12 +31,12 @@ export const Header = () => {
         <nav className="hidden md:flex items-center gap-6">
           {isAuthenticated ? (
             <>
-              {userRole === "designer" && (
+              {hasRole("designer") && (
                 <Link to="/dashboard" className="text-xs uppercase font-bold tracking-widest text-[#74777d] hover:text-[#1c1c1a] transition-colors flex items-center gap-1.5">
                   <LayoutDashboard className="w-3.5 h-3.5" /> Dashboard
                 </Link>
               )}
-              {userRole === "customer" && (
+              {hasRole("customer") && (
                 <Link to="/setup" className="text-xs uppercase font-bold tracking-widest text-[#74777d] hover:text-[#1c1c1a] transition-colors flex items-center gap-1.5">
                   <Palette className="w-3.5 h-3.5" /> Setup Practice
                 </Link>
@@ -63,7 +63,7 @@ export const Header = () => {
         <div className="md:hidden flex items-center gap-1.5">
           {isAuthenticated ? (
             <>
-              {userRole === "designer" && (
+              {hasRole("designer") && (
                 <Link
                   to="/dashboard"
                   className="text-[10px] uppercase font-bold tracking-wider px-2.5 py-1 border border-[#1c1c1a] text-[#1c1c1a] hover:bg-[#1c1c1a] hover:text-white rounded-full transition-all duration-200 whitespace-nowrap"
@@ -71,7 +71,7 @@ export const Header = () => {
                   Dashboard
                 </Link>
               )}
-              {userRole === "customer" && (
+              {hasRole("customer") && (
                 <Link
                   to="/setup"
                   className="text-[10px] uppercase font-bold tracking-wider px-2.5 py-1 border border-[#1c1c1a] text-[#1c1c1a] hover:bg-[#1c1c1a] hover:text-white rounded-full transition-all duration-200 whitespace-nowrap"

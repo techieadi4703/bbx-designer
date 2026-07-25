@@ -44,17 +44,10 @@ export default function DesignerSetup() {
       setUserId(session.user.id);
       setForm(prev => ({ ...prev, email: session.user.email || "" }));
       
-      const { data: profileData } = await supabase
-        .from("profiles")
-        .select("role")
-        .eq("id", session.user.id)
-        .maybeSingle();
-
-      if (profileData && profileData.role !== "designer") {
-        navigate("/");
-        return;
-      }
-
+      // Role gating is handled upstream by ProtectedRoute (hasRole('designer')).
+      // We intentionally do NOT read profiles.role here — under the multi-role model
+      // a linked designer keeps their original profiles.role (e.g. 'customer'), which
+      // would wrongly bounce them out of setup.
       const { data: profileInfo } = await supabase
         .from("profiles")
         .select("full_name, phone")

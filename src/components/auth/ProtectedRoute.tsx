@@ -1,12 +1,13 @@
 import { Navigate } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
+import { PORTAL_ROLE } from '@/integrations/supabase/client';
 
 interface ProtectedRouteProps {
   children: React.ReactNode;
 }
 
 export const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
-  const { isAuthenticated, isLoading } = useAuth();
+  const { isAuthenticated, isLoading, hasRole } = useAuth();
 
   // Still resolving auth state — show a minimal loading indicator
   if (isLoading) {
@@ -22,6 +23,10 @@ export const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
 
   // No session — redirect to auth page
   if (!isAuthenticated) return <Navigate to="/auth" replace />;
+
+  // Signed in but lacking this portal's role: not an error — a valid account that
+  // hasn't onboarded here yet. Send them to onboarding, not an "Access Denied" screen.
+  if (!hasRole(PORTAL_ROLE)) return <Navigate to="/onboarding" replace />;
 
   // Authenticated — render protected content
   return <>{children}</>;

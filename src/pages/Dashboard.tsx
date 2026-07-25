@@ -31,17 +31,9 @@ export default function DesignerDashboard() {
         return;
       }
 
-      // Role check
-      const { data: profileData } = await supabase
-        .from("profiles")
-        .select("role")
-        .eq("id", session.user.id)
-        .maybeSingle();
-
-      if (profileData && profileData.role !== "designer") {
-        navigate("/");
-        return;
-      }
+      // Role gating is handled upstream by ProtectedRoute (hasRole('designer')).
+      // The presence of a designers row below is the real "has this user set up
+      // here" check; we no longer read profiles.role (stale under the multi-role model).
 
       // Fetch designer row
       const { data: designerData, error: designerError } = await supabase

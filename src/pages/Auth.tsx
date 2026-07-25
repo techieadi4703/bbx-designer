@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import { supabase } from "@/integrations/supabase/client";
+import { supabase, PORTAL_ROLE } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
+import { useAuth } from "@/contexts/AuthContext";
 import { Layout } from "@/components/layout/Layout";
 import { ArrowRight, Mail, Lock, Palette, User, Check, Phone, MapPin } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
@@ -16,6 +17,9 @@ export default function DesignerAuth() {
   const [searchParams] = useSearchParams();
   const isSignupParam = searchParams.get("mode") === "signup";
   const [isLogin, setIsLogin] = useState(!isSignupParam);
+  // link-existing mode: the email already has a BuildBazaarX account, so instead of
+  // signing up we sign in and attach the designer role via grant_self_role.
+  const [isLinking, setIsLinking] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   
   const [email, setEmail] = useState("");
@@ -27,6 +31,7 @@ export default function DesignerAuth() {
   
   const navigate = useNavigate();
   const { toast } = useToast();
+  const { refreshRoles } = useAuth();
 
   const resolveDesignerDestination = async (userId: string) => {
     const { data: designerData, error: designerError } = await supabase
@@ -66,11 +71,35 @@ export default function DesignerAuth() {
     );
   };
 
+  // Links this portal's role onto an ALREADY-existing BuildBazaarX account: signs in
+  // with the entered credentials, attaches 'designer' via grant_self_role (which never
+  // overwrites the account's other roles), refreshes context, then continues to setup.
+  const linkExistingAccount = async () => {
+    const { error: signInError } = await supabase.auth.signInWithPassword({ email, password });
+    if (signInError) {
+      toast({
+        variant: "destructive",
+        title: "That email already has a BuildBazaarX account",
+        description: "Enter its password to add a designer profile.",
+      });
+      return;
+    }
+
+    const { error: roleError } = await supabase.rpc("grant_self_role", { p_role: PORTAL_ROLE });
+    if (roleError) throw roleError;
+
+    await refreshRoles();
+    toast({ title: "Designer profile added ✨", description: "Configuring your creative workspace..." });
+    navigate("/setup");
+  };
+
   const handleAuth = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
     try {
-      if (isLogin) {
+      if (isLinking) {
+        await linkExistingAccount();
+      } else if (isLogin) {
         const { error } = await supabase.auth.signInWithPassword({ email, password });
         if (error) throw error;
         toast({ title: "Authorized", description: "Entering Designer Studio..." });
@@ -95,12 +124,21 @@ export default function DesignerAuth() {
           },
         });
 
-        if (error) throw error;
+        if (error) {
+          // Already have a BuildBazaarX account? Don't dead-end — switch into
+          // link-existing mode and attach a designer profile instead.
+          if (/already registered/i.test(error.message) || (error as any).code === "user_already_exists") {
+            setIsLinking(true);
+            await linkExistingAccount();
+            return;
+          }
+          throw error;
+        }
 
         if (data.user) {
-          // Safety Sync: Explicitly update the profiles table to ensure role and contact info are attached first
-          await supabase.from('profiles').update({ 
-            role: 'designer', 
+          // Attach contact/location details WITHOUT touching role. Role assignment now
+          // happens in the DB trigger (fresh signup) and grant_self_role (linking).
+          await supabase.from('profiles').update({
             full_name: fullName,
             phone: phone,
             city: city,
@@ -145,7 +183,16 @@ export default function DesignerAuth() {
                 className="bg-white border border-[#e5e2df] p-5 md:p-12 rounded-sm shadow-sm"
               >
                 <form onSubmit={handleAuth} className="space-y-5 md:space-y-8">
-                   {!isLogin && (
+                  {isLinking && (
+                    <div className="border border-[#e5e2df] bg-[#f6f3f0] p-4 rounded-sm">
+                      <p className="text-[11px] uppercase font-bold tracking-widest text-[#74777d] leading-relaxed">
+                        You already have a BuildBazaarX account. Authenticate below to add a{" "}
+                        <span className="text-[#1c1c1a]">designer</span> profile — your existing roles stay intact.
+                      </p>
+                    </div>
+                  )}
+
+                   {!isLogin && !isLinking && (
                     <div className="space-y-8">
                       <div className="space-y-2">
                         <label className="text-[10px] uppercase font-bold tracking-widest text-[#1c1c1a] opacity-60">Creative Nomenclature *</label>
@@ -234,18 +281,39 @@ export default function DesignerAuth() {
                   </div>
 
                   <button type="submit" disabled={isLoading} className="w-full h-14 bg-[#1c1c1a] text-white text-[10px] font-bold uppercase tracking-widest rounded-sm hover:bg-[#735c00] transition-all flex items-center justify-center gap-3 group">
-                    {isLoading ? "Synchronizing..." : isLogin ? "Access Studio" : "Establish Professional Profile"}
+                    {isLoading ? "Synchronizing..." : isLinking ? "Add Designer Profile" : isLogin ? "Access Studio" : "Establish Professional Profile"}
                     <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                   </button>
                 </form>
 
-                <div className="mt-6 md:mt-12 pt-6 md:pt-8 border-t border-[#e5e2df] flex items-center justify-between">
-                  <span className="text-[10px] uppercase font-bold tracking-widest text-[#74777d]">
-                    {isLogin ? "No active license?" : "Existing resident?"}
-                  </span>
-                  <button onClick={() => setIsLogin(!isLogin)} className="text-[10px] uppercase font-bold tracking-widest text-[#735c00] hover:underline underline-offset-4">
-                    {isLogin ? "Join the Network" : "Portal Access"}
-                  </button>
+                <div className="mt-6 md:mt-12 pt-6 md:pt-8 border-t border-[#e5e2df] flex flex-col gap-4">
+                  {isLinking ? (
+                    <button
+                      type="button"
+                      onClick={() => setIsLinking(false)}
+                      className="text-[10px] uppercase font-bold tracking-widest text-[#735c00] hover:underline underline-offset-4 self-start"
+                    >
+                      ← Back to sign up
+                    </button>
+                  ) : (
+                    <>
+                      <div className="flex items-center justify-between">
+                        <span className="text-[10px] uppercase font-bold tracking-widest text-[#74777d]">
+                          {isLogin ? "No active license?" : "Existing resident?"}
+                        </span>
+                        <button type="button" onClick={() => setIsLogin(!isLogin)} className="text-[10px] uppercase font-bold tracking-widest text-[#735c00] hover:underline underline-offset-4">
+                          {isLogin ? "Join the Network" : "Portal Access"}
+                        </button>
+                      </div>
+                      <button
+                        type="button"
+                        onClick={() => { setIsLinking(true); setIsLogin(false); }}
+                        className="text-[10px] uppercase font-bold tracking-widest text-[#74777d] hover:text-[#1c1c1a] hover:underline underline-offset-4 text-left"
+                      >
+                        Already use BuildBazaarX? Add a designer profile →
+                      </button>
+                    </>
+                  )}
                 </div>
               </motion.div>
             </div>

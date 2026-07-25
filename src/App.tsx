@@ -13,6 +13,7 @@ import { ErrorBoundary } from "./components/shared/ErrorBoundary";
 const Dashboard = React.lazy(() => import("./pages/Dashboard"));
 const Landing = React.lazy(() => import("./pages/Landing"));
 const Auth = React.lazy(() => import("./pages/Auth"));
+const Onboarding = React.lazy(() => import("./pages/Onboarding"));
 const Setup = React.lazy(() => import("./pages/Setup"));
 const NotFound = React.lazy(() => import("./pages/NotFound"));
 
@@ -39,6 +40,7 @@ const AnimatedRoutes = () => {
         <Route path="/" element={<PageTransition><Landing /></PageTransition>} />
         <Route path="/dashboard" element={<ProtectedRoute><PageTransition><Dashboard /></PageTransition></ProtectedRoute>} />
         <Route path="/auth" element={<PageTransition><Auth /></PageTransition>} />
+        <Route path="/onboarding" element={<PageTransition><Onboarding /></PageTransition>} />
         <Route path="/setup" element={<ProtectedRoute><PageTransition><Setup /></PageTransition></ProtectedRoute>} />
         <Route path="*" element={<PageTransition><NotFound /></PageTransition>} />
       </Routes>
